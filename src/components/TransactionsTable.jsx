@@ -41,7 +41,7 @@ const transactions = [
 		category: "Savings",
 	},
 ];
-import Transaction from "./Transaction";
+import Transaction from "./TransactionRow";
 
 export default function TransactionsTable() {
 	return (
