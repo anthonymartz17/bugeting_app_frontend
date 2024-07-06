@@ -43,7 +43,7 @@ const transactions = [
 ];
 import Transaction from "./TransactionRow";
 
-export default function TransactionsTable() {
+export default function TransactionsTable({ setModalOpen }) {
 	return (
 		<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 			<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -66,7 +66,11 @@ export default function TransactionsTable() {
 				</thead>
 				<tbody>
 					{transactions.map((tranx) => (
-						<Transaction transaction={tranx} key={tranx.id} />
+						<Transaction
+							transaction={tranx}
+							key={tranx.id}
+							setModalOpen={setModalOpen}
+						/>
 					))}
 				</tbody>
 			</table>

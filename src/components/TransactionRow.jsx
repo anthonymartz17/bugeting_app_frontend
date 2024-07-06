@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Transaction({ transaction }) {
+export default function Transaction({ transaction, setModalOpen }) {
 	return (
 		<tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
 			<th
@@ -18,13 +18,18 @@ export default function Transaction({ transaction }) {
 						visibility
 					</span>
 				</Link>
-				<Link to={`/transactions/${transaction.id}`}>
+				<Link to={`/transactions/${transaction.id}/edit`}>
 					<span className="material-symbols-outlined text-yellow-300">
 						edit
 					</span>
 				</Link>
 
-				<span className="material-symbols-outlined text-red-500">delete</span>
+				<span
+					onClick={() => setModalOpen(true)}
+					className="material-symbols-outlined text-red-500 cursor-pointer"
+				>
+					delete
+				</span>
 			</td>
 		</tr>
 	);
