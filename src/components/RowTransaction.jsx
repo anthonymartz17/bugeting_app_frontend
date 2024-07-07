@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Transaction({ transaction, setModalOpen }) {
+export default function Transaction({ transaction, onTryDelete }) {
 	return (
 		<tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
 			<th
@@ -25,7 +25,7 @@ export default function Transaction({ transaction, setModalOpen }) {
 				</Link>
 
 				<span
-					onClick={() => setModalOpen(true)}
+					onClick={() => onTryDelete(transaction.id)}
 					className="material-symbols-outlined text-red-500 cursor-pointer"
 				>
 					delete

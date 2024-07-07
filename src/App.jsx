@@ -7,9 +7,47 @@ import Show from "./pages/Show";
 import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Alert from "./components/Alert";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function App() {
+	const API = import.meta.env.VITE_APP_BUDGET_API;
 	const [modalOpen, setModalOpen] = useState(false);
+	const [transactions, setTransactions] = useState([]);
+	const [toDeleteId, setToDeleteId] = useState(null);
+
+	function handleDeleteTransaction() {
+		const isExist = transactions.some((tranx) => tranx.id === toDeleteId);
+
+		if (isExist) {
+			fetch(`${API}/transactions/${toDeleteId}`, {
+				method: "DELETE",
+			})
+				.then((res) => res.json())
+				.then((res) => {
+					setTransactions((prev) =>
+						prev.filter((tranx) => tranx.id !== toDeleteId)
+					);
+				})
+				.catch((error) => {
+					console.log(error, "error");
+				});
+		}
+	}
+
+	function tryDelete(id) {
+		setModalOpen(true);
+		setToDeleteId(id);
+	}
+
+	useEffect(() => {
+		fetch(`${API}/transactions`)
+			.then((res) => res.json())
+			.then((data) => {
+				setTransactions(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, []);
 
 	return (
 		<>
@@ -22,14 +60,20 @@ function App() {
 						<Route path="/" element={<Home />} />
 						<Route
 							path="/transactions"
-							element={<Index setModalOpen={setModalOpen} />}
+							element={
+								<Index onTryDelete={tryDelete} transactions={transactions} />
+							}
 						/>
 						<Route path="/transactions/:id" element={<Show />} />
 						<Route path="/transactions/new" element={<New />} />
 						<Route path="/transactions/:id/edit" element={<Edit />} />
 					</Routes>
 				</main>
-				<Alert modalOpen={modalOpen} setModalOpen={setModalOpen} />
+				<Alert
+					modalOpen={modalOpen}
+					setModalOpen={setModalOpen}
+					onHandleDeleteTransaction={handleDeleteTransaction}
+				/>
 			</Router>
 		</>
 	);
