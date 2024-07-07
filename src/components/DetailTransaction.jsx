@@ -1,14 +1,29 @@
-import React from "react";
-const transaction = {
-	id: 5,
-	item_name: "Savings Deposit",
-	amount: 500,
-	date: "2024-07-05",
-	from: "Bank",
-	category: "Savings",
-};
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+// const transaction = {
+// 	id: 5,
+// 	item_name: "Savings Deposit",
+// 	amount: 500,
+// 	date: "2024-07-05",
+// 	from: "Bank",
+// 	category: "Savings",
+// };
+const API = import.meta.env.VITE_APP_BUDGET_API;
 
 export default function TransactionDetail() {
+	const [transaction, setTransaction] = useState({});
+	const { id } = useParams();
+
+	useEffect(() => {
+		fetch(`${API}/transactions/${id}`)
+			.then((res) => res.json())
+			.then((data) => {
+				setTransaction(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	});
 	return (
 		<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
 			<tbody>

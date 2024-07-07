@@ -1,5 +1,5 @@
 import React from "react";
-import TransactionDetail from "../components/TransactionDetail";
+import TransactionDetail from "../components/DetailTransaction";
 export default function Show() {
 	return (
 		<div>

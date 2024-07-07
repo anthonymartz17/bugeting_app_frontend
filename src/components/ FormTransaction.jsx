@@ -1,19 +1,33 @@
 import React from "react";
 import { useState } from "react";
-import DropdownAddOption from "../components/DropdownAddOption";
+import DropdownAddOption from "./DropdownAddOption";
 export default function New() {
-	const [isOpen, setIsOpen] = useState(false);
 	const [newTransaction, setNewTransaction] = useState({
 		item_name: "",
 		amount: "",
 		date: "",
-		from: "",
+		merchant: "",
 		category: "",
 	});
 
 	function handleFormData(e) {
+		e.preventDefault();
 		const { id, value } = e.target;
-		setNewTransaction((prev) => ({ ...prev, [id]: value }));
+		setNewTransaction((prev) => ({ ...prev, [id]: getProperType(id, value) }));
+	}
+	function getProperType(key, value) {
+		switch (key) {
+			case "item_name":
+				return String(value);
+			case "amount":
+				return Number(value);
+			case "date":
+				return String(value);
+			case "merchant":
+				return String(value);
+			case "category":
+				return String(value);
+		}
 	}
 
 	function handleFormSubmition(e) {
@@ -72,17 +86,17 @@ export default function New() {
 			</div>
 			<div className="mb-5">
 				<label
-					htmlFor="from"
+					htmlFor="merchant"
 					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>
-					From
+					merchant
 				</label>
 
 				<input
 					onChange={handleFormData}
 					type="text"
-					id="from"
-					placeholder="100"
+					id="merchant"
+					placeholder="Entity name"
 					className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
 					required
 				/>
@@ -104,9 +118,7 @@ export default function New() {
 				/>
 			</div>
 
-			<button
-				className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-			>
+			<button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 				Submit
 			</button>
 		</form>
