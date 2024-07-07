@@ -19,3 +19,23 @@ export function fetchTransactions() {
 			throw error;
 		});
 }
+
+export function fetchTransactionById(id) {
+	return fetch(`${API}/transactions/${id}`)
+		.then((res) => {
+			if (!res.ok) {
+				if (res.status === 404) {
+					throw new Error("Transactions not found");
+				} else {
+					throw new Error("Server error: " + res.status);
+				}
+			}
+			return res.json();
+		})
+		.then((data) => {
+			return data;
+		})
+		.catch((error) => {
+			throw error;
+		});
+}

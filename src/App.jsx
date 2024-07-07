@@ -35,12 +35,22 @@ function App() {
 		setModalOpen(true);
 		setToDeleteId(id);
 	}
+	function updateTransaction(updatedTransaction) {
+		setTransactions((prev) => {
+			prev.map((tranx) => {
+				if (tranx.id === updatedTransaction.id) {
+					return { ...tranx, ...updatedTransaction };
+				}
+				return tranx;
+			});
+		});
+	}
 
 	async function getTransactions() {
 		try {
 			const data = await fetchTransactions();
 			setTransactions(data);
-			const categoryList = data.map((tranx) => tranx.category)
+			const categoryList = data.map((tranx) => tranx.category);
 			setCategories(categoryList);
 		} catch (error) {
 			console.log(error);
@@ -79,7 +89,11 @@ function App() {
 						<Route
 							path="/transactions/:id/edit"
 							element={
-								<Edit categories={categories} onSetCategories={setCategories} />
+								<Edit
+									categories={categories}
+									onSetCategories={setCategories}
+									onUpdateTransaction={updateTransaction}
+								/>
 							}
 						/>
 					</Routes>

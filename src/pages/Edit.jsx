@@ -1,7 +1,11 @@
 import React from "react";
 import FormTransaction from "../components/ FormTransaction";
 import { useParams } from "react-router-dom";
-export default function Edit({ categories, onSetCategories }) {
+export default function Edit({
+	categories,
+	onSetCategories,
+	onUpdateTransaction,
+}) {
 	const { id } = useParams();
 	return (
 		<div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
@@ -9,6 +13,7 @@ export default function Edit({ categories, onSetCategories }) {
 				id={id}
 				categories={categories}
 				onSetCategories={onSetCategories}
+				onUpdateTransaction={onUpdateTransaction}
 			/>
 		</div>
 	);
