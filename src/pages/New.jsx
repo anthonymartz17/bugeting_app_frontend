@@ -1,6 +1,10 @@
 import React from "react";
 import FormTransaction from "../components/ FormTransaction";
-export default function New({ categories, onSetCategories }) {
+export default function New({
+	categories,
+	onSetCategories,
+	onSetTransactions,
+}) {
 	console.log(categories, "av ");
 	return (
 		<div>
@@ -8,6 +12,7 @@ export default function New({ categories, onSetCategories }) {
 				<FormTransaction
 					categories={categories}
 					onSetCategories={onSetCategories}
+					onSetTransactions={onSetTransactions}
 				/>
 			</div>
 		</div>

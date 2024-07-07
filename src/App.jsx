@@ -36,14 +36,13 @@ function App() {
 		setToDeleteId(id);
 	}
 	function updateTransaction(updatedTransaction) {
-		setTransactions((prev) => {
-			prev.map((tranx) => {
-				if (tranx.id === updatedTransaction.id) {
-					return { ...tranx, ...updatedTransaction };
-				}
-				return tranx;
-			});
-		});
+		setTransactions((prev) =>
+			prev.map((tranx) =>
+				tranx.id === updatedTransaction.id
+					? { ...tranx, ...updatedTransaction }
+					: tranx
+			)
+		);
 	}
 
 	async function getTransactions() {
@@ -83,7 +82,11 @@ function App() {
 						<Route
 							path="/transactions/new"
 							element={
-								<New categories={categories} onSetCategories={setCategories} />
+								<New
+									categories={categories}
+									onSetCategories={setCategories}
+									onSetTransactions={setTransactions}
+								/>
 							}
 						/>
 						<Route

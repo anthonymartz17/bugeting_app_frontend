@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import DropdownAddOption from "./DropdownAddOption";
 import { Link, useNavigate } from "react-router-dom";
-import { updateTransaction } from "../services/transactions.service";
+import {
+	createTransaction,
+	updateTransaction,
+} from "../services/transactions.service";
 const API = import.meta.env.VITE_APP_BUDGET_API;
 
 export default function FormTransaction({
@@ -10,6 +13,7 @@ export default function FormTransaction({
 	categories,
 	onSetCategories,
 	onUpdateTransaction,
+	onSetTransactions,
 }) {
 	const navigate = useNavigate();
 	const [transactionData, setTransactionDate] = useState({
@@ -51,7 +55,13 @@ export default function FormTransaction({
 				console.log(error);
 			}
 		} else {
-			//create
+			try {
+				const newTransaction = await createTransaction(transactionData);
+				onSetTransactions((prev) => [...prev, newTransaction]);
+				navigate(`/transactions`);
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	}
 

@@ -17,7 +17,7 @@ export default function TransactionDetail() {
 	}
 	useEffect(() => {
 		getTransactionById(id);
-	});
+	}, []);
 	return (
 		<div>
 			<div className="flex justify-end">
