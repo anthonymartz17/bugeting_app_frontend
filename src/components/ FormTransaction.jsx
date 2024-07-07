@@ -3,7 +3,7 @@ import { useState } from "react";
 import DropdownAddOption from "./DropdownAddOption";
 const API = import.meta.env.VITE_APP_BUDGET_API;
 
-export default function FormTransaction({ id }) {
+export default function FormTransaction({ id, categories, onSetCategories }) {
 	const [transactionData, setTransactionDate] = useState({
 		item_name: "",
 		amount: "",
@@ -95,7 +95,9 @@ export default function FormTransaction({ id }) {
 					Category
 				</label>
 				<DropdownAddOption
-					options={["test", "test2"]}
+					categories={categories}
+					selectedCategory={transactionData.category}
+					onSetCategories={onSetCategories}
 					handleFormData={handleFormData}
 				/>
 			</div>

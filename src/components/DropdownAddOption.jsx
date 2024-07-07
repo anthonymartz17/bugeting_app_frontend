@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 
-export default function DropdownAddOption({ options = [], handleFormData }) {
-	const [optionList, setOptionList] = useState(options);
+export default function DropdownAddOption({
+	categories,
+	selectedCategory,
+	handleFormData,
+}) {
+	const [optionList, setOptionList] = useState(categories);
 	const [newOption, setNewOption] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
-  function handleAddOption() {
-    
+	function handleAddOption() {
 		if (newOption.trim() !== "") {
 			setOptionList([...optionList, newOption]);
 			setNewOption("");
@@ -16,6 +19,7 @@ export default function DropdownAddOption({ options = [], handleFormData }) {
 	return (
 		<div className="flex">
 			<select
+				value={selectedCategory}
 				onChange={handleFormData}
 				id="category"
 				className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
@@ -43,6 +47,15 @@ export default function DropdownAddOption({ options = [], handleFormData }) {
 						placeholder="Add category"
 						required
 					/>
+
+					<span
+						onClick={() => setIsOpen((prev) => !prev)}
+						className="absolute bottom-10 cursor-pointer text-white
+
+right-0 material-symbols-outlined"
+					>
+						close
+					</span>
 					<button
 						onClick={(e) => handleAddOption(e)}
 						type="button"

@@ -17,22 +17,18 @@ function App() {
 	const [toDeleteId, setToDeleteId] = useState(null);
 
 	function handleDeleteTransaction() {
-		const isExist = transactions.some((tranx) => tranx.id === toDeleteId);
-
-		if (isExist) {
-			fetch(`${API}/transactions/${toDeleteId}`, {
-				method: "DELETE",
+		fetch(`${API}/transactions/${toDeleteId}`, {
+			method: "DELETE",
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				setTransactions((prev) =>
+					prev.filter((tranx) => tranx.id !== toDeleteId)
+				);
 			})
-				.then((res) => res.json())
-				.then((res) => {
-					setTransactions((prev) =>
-						prev.filter((tranx) => tranx.id !== toDeleteId)
-					);
-				})
-				.catch((error) => {
-					console.log(error, "error");
-				});
-		}
+			.catch((error) => {
+				console.log(error, "error");
+			});
 	}
 
 	function confirmBeforeDelete(id) {
@@ -44,6 +40,8 @@ function App() {
 		try {
 			const data = await fetchTransactions();
 			setTransactions(data);
+			const categoryList = data.map((tranx) => tranx.category)
+			setCategories(categoryList);
 		} catch (error) {
 			console.log(error);
 		}
@@ -72,8 +70,18 @@ function App() {
 							}
 						/>
 						<Route path="/transactions/:id" element={<Show />} />
-						<Route path="/transactions/new" element={<New />} />
-						<Route path="/transactions/:id/edit" element={<Edit />} />
+						<Route
+							path="/transactions/new"
+							element={
+								<New categories={categories} onSetCategories={setCategories} />
+							}
+						/>
+						<Route
+							path="/transactions/:id/edit"
+							element={
+								<Edit categories={categories} onSetCategories={setCategories} />
+							}
+						/>
 					</Routes>
 				</main>
 				<Alert
