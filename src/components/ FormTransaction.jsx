@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import DropdownAddOption from "./DropdownAddOption";
 import { Link, useNavigate } from "react-router-dom";
+import { updateTransaction } from "../services/transactions.service";
 const API = import.meta.env.VITE_APP_BUDGET_API;
 
 export default function FormTransaction({
@@ -39,23 +40,16 @@ export default function FormTransaction({
 		}
 	}
 
-	function handleFormSubmission(e) {
+	async function handleFormSubmission(e) {
 		e.preventDefault();
 		if (id) {
-			//update
-
-			fetch(`${API}/transactions/${id}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(transactionData),
-			})
-				.then((res) => res.json())
-				.then((res) => {
-					onUpdateTransaction(res);
-					navigate(`/transactions/${id}`);
-				});
+			try {
+				const updatedTransaction = await updateTransaction(transactionData);
+				onUpdateTransaction(updatedTransaction);
+				navigate(`/transactions/${id}`);
+			} catch (error) {
+				console.log(error);
+			}
 		} else {
 			//create
 		}
