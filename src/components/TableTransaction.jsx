@@ -1,9 +1,8 @@
-
-
 import Transaction from "./RowTransaction";
-export default function TableTransactions({ onTryDelete,transactions }) {
-
-
+export default function TableTransactions({
+	onconfirmBeforeDelete,
+	transactions,
+}) {
 	return (
 		<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 			<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -30,7 +29,7 @@ export default function TableTransactions({ onTryDelete,transactions }) {
 							<Transaction
 								transaction={tranx}
 								key={tranx.id}
-								onTryDelete={onTryDelete}
+								onconfirmBeforeDelete={onconfirmBeforeDelete}
 							/>
 						))
 					) : (

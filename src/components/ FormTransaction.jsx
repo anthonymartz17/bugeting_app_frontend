@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import DropdownAddOption from "./DropdownAddOption";
-export default function New() {
-	const [newTransaction, setNewTransaction] = useState({
+const API = import.meta.env.VITE_APP_BUDGET_API;
+
+export default function FormTransaction({ id }) {
+	const [transactionData, setTransactionDate] = useState({
 		item_name: "",
 		amount: "",
 		date: "",
@@ -13,7 +15,7 @@ export default function New() {
 	function handleFormData(e) {
 		e.preventDefault();
 		const { id, value } = e.target;
-		setNewTransaction((prev) => ({ ...prev, [id]: getProperType(id, value) }));
+		setTransactionDate((prev) => ({ ...prev, [id]: getProperType(id, value) }));
 	}
 	function getProperType(key, value) {
 		switch (key) {
@@ -30,14 +32,42 @@ export default function New() {
 		}
 	}
 
-	function handleFormSubmition(e) {
+	function handleFormSubmission(e) {
 		e.preventDefault();
-		console.log(newTransaction);
+		if (id) {
+			//update
+
+			fetch(`${API}/transactions/${id}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(transactionData),
+			})
+				.then((res) => res.json())
+				.then((res) => {});
+		} else {
+			//create
+		}
 	}
+
+	useEffect(() => {
+		if (id) {
+			fetch(`${API}/transactions/${id}`)
+				.then((res) => res.json())
+				.then((data) => {
+					setTransactionDate((prev) => ({ ...prev, ...data }));
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+	}, []);
+
 	return (
 		<form
 			className="max-w-sm mx-auto dark:bg-gray-700 p-2 border rounded"
-			onSubmit={handleFormSubmition}
+			onSubmit={handleFormSubmission}
 		>
 			<div className="mb-5">
 				<label
@@ -47,6 +77,7 @@ export default function New() {
 					Transaction name
 				</label>
 				<input
+					value={transactionData.item_name}
 					onChange={handleFormData}
 					type="text"
 					id="item_name"
@@ -78,6 +109,7 @@ export default function New() {
 
 				<input
 					onChange={handleFormData}
+					value={transactionData.amount}
 					type="text"
 					id="amount"
 					className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
@@ -94,6 +126,7 @@ export default function New() {
 
 				<input
 					onChange={handleFormData}
+					value={transactionData.merchant}
 					type="text"
 					id="merchant"
 					placeholder="Entity name"
@@ -111,6 +144,7 @@ export default function New() {
 
 				<input
 					onChange={handleFormData}
+					value={transactionData.date}
 					type="date"
 					id="date"
 					className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
@@ -119,7 +153,7 @@ export default function New() {
 			</div>
 
 			<button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-				Submit
+				{id ? "Update" : "Submit"}
 			</button>
 		</form>
 	);

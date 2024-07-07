@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// const transaction = {
-// 	id: 5,
-// 	item_name: "Savings Deposit",
-// 	amount: 500,
-// 	date: "2024-07-05",
-// 	from: "Bank",
-// 	category: "Savings",
-// };
+
 const API = import.meta.env.VITE_APP_BUDGET_API;
 
 export default function TransactionDetail() {

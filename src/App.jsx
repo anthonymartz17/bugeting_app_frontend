@@ -8,10 +8,12 @@ import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Alert from "./components/Alert";
 import { useState, useEffect } from "react";
+import { fetchTransactions } from "./services/transactions.service";
 function App() {
 	const API = import.meta.env.VITE_APP_BUDGET_API;
 	const [modalOpen, setModalOpen] = useState(false);
 	const [transactions, setTransactions] = useState([]);
+	const [categories, setCategories] = useState([]);
 	const [toDeleteId, setToDeleteId] = useState(null);
 
 	function handleDeleteTransaction() {
@@ -33,20 +35,22 @@ function App() {
 		}
 	}
 
-	function tryDelete(id) {
+	function confirmBeforeDelete(id) {
 		setModalOpen(true);
 		setToDeleteId(id);
 	}
 
+	async function getTransactions() {
+		try {
+			const data = await fetchTransactions();
+			setTransactions(data);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	useEffect(() => {
-		fetch(`${API}/transactions`)
-			.then((res) => res.json())
-			.then((data) => {
-				setTransactions(data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		getTransactions();
 	}, []);
 
 	return (
@@ -61,7 +65,10 @@ function App() {
 						<Route
 							path="/transactions"
 							element={
-								<Index onTryDelete={tryDelete} transactions={transactions} />
+								<Index
+									onconfirmBeforeDelete={confirmBeforeDelete}
+									transactions={transactions}
+								/>
 							}
 						/>
 						<Route path="/transactions/:id" element={<Show />} />
