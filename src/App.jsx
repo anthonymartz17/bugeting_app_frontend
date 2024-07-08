@@ -73,12 +73,15 @@ function App() {
 							path="/transactions"
 							element={
 								<Index
-									onconfirmBeforeDelete={confirmBeforeDelete}
+									onConfirmBeforeDelete={confirmBeforeDelete}
 									transactions={transactions}
 								/>
 							}
 						/>
-						<Route path="/transactions/:id" element={<Show />} />
+						<Route
+							path="/transactions/:id"
+							element={<Show onConfirmBeforeDelete={confirmBeforeDelete} />}
+						/>
 						<Route
 							path="/transactions/new"
 							element={

@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Alert({
 	modalOpen,
 	setModalOpen,
 	onHandleDeleteTransaction,
 }) {
+	const navigate = useNavigate();
+
 	function handleDelete() {
 		onHandleDeleteTransaction();
 		setModalOpen(false);
+		navigate("/transactions");
 	}
 
 	return (

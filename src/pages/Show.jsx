@@ -1,6 +1,6 @@
 import React from "react";
-import TransactionDetail from "../components/DetailTransaction";
-export default function Show() {
+import DetailTransaction from "../components/DetailTransaction";
+export default function Show({ onConfirmBeforeDelete }) {
 	return (
 		<div>
 			<div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
@@ -8,7 +8,7 @@ export default function Show() {
 					Transaction Detail
 				</h2>
 
-				<TransactionDetail />
+				<DetailTransaction onConfirmBeforeDelete={onConfirmBeforeDelete} />
 			</div>
 		</div>
 	);

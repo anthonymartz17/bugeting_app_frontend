@@ -1,6 +1,6 @@
 import Transaction from "./RowTransaction";
 export default function TableTransactions({
-	onconfirmBeforeDelete,
+	onConfirmBeforeDelete,
 	transactions,
 }) {
 	return (
@@ -29,7 +29,7 @@ export default function TableTransactions({
 							<Transaction
 								transaction={tranx}
 								key={tranx.id}
-								onconfirmBeforeDelete={onconfirmBeforeDelete}
+								onConfirmBeforeDelete={onConfirmBeforeDelete}
 							/>
 						))
 					) : (
