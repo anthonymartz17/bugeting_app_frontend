@@ -8,7 +8,10 @@ import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Alert from "./components/Alert";
 import { useState, useEffect } from "react";
-import { fetchTransactions } from "./services/transactions.service";
+import {
+	fetchTransactions,
+	deleteTransaction,
+} from "./services/transactions.service";
 function App() {
 	const API = import.meta.env.VITE_APP_BUDGET_API;
 	const [modalOpen, setModalOpen] = useState(false);
@@ -16,19 +19,15 @@ function App() {
 	const [categories, setCategories] = useState([]);
 	const [toDeleteId, setToDeleteId] = useState(null);
 
-	function handleDeleteTransaction() {
-		fetch(`${API}/transactions/${toDeleteId}`, {
-			method: "DELETE",
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				setTransactions((prev) =>
-					prev.filter((tranx) => tranx.id !== toDeleteId)
-				);
-			})
-			.catch((error) => {
-				console.log(error, "error");
-			});
+	async function handleDeleteTransaction() {
+		try {
+			await deleteTransaction(toDeleteId);
+			setTransactions((prev) =>
+				prev.filter((tranx) => tranx.id !== toDeleteId)
+			);
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	function confirmBeforeDelete(id) {

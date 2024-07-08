@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
 	createTransaction,
 	updateTransaction,
+	fetchTransactionById,
 } from "../services/transactions.service";
 const API = import.meta.env.VITE_APP_BUDGET_API;
 
@@ -16,7 +17,7 @@ export default function FormTransaction({
 	onSetTransactions,
 }) {
 	const navigate = useNavigate();
-	const [transactionData, setTransactionDate] = useState({
+	const [transactionData, setTransactionData] = useState({
 		item_name: "",
 		amount: "",
 		date: "",
@@ -27,7 +28,7 @@ export default function FormTransaction({
 	function handleFormData(e) {
 		e.preventDefault();
 		const { id, value } = e.target;
-		setTransactionDate((prev) => ({ ...prev, [id]: getProperType(id, value) }));
+		setTransactionData((prev) => ({ ...prev, [id]: getProperType(id, value) }));
 	}
 	function getProperType(key, value) {
 		switch (key) {
@@ -64,17 +65,18 @@ export default function FormTransaction({
 			}
 		}
 	}
+	async function setTransactionDataById(id) {
+		try {
+			const transaction = await fetchTransactionById(id);
+			setTransactionData((prev) => ({ ...prev, ...transaction }));
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	useEffect(() => {
 		if (id) {
-			fetch(`${API}/transactions/${id}`)
-				.then((res) => res.json())
-				.then((data) => {
-					setTransactionDate((prev) => ({ ...prev, ...data }));
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+			setTransactionDataById(id);
 		}
 	}, []);
 
