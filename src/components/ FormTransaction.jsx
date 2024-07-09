@@ -24,29 +24,53 @@ export default function FormTransaction({
 		merchant: "",
 		category: "",
 	});
-
+	// const [submitted, setSubmitted] = useState(false);
+	const [validation, setValidation] = useState({
+		error: false,
+		amount: { isInValid: false },
+	});
+	function validate() {
+		if (isNaN(transactionData.amount) || transactionData.amount.trim() === "") {
+			setValidation((prev) => ({
+				...prev,
+				error: true,
+				amount: { isInValid: true },
+			}));
+			return false;
+		}
+		setValidation((prev) => ({
+			...prev,
+			error: false,
+			amount: { isInValid: false },
+		}));
+		return true;
+	}
 	function handleFormData(e) {
 		e.preventDefault();
+
 		const { id, value } = e.target;
-		setTransactionData((prev) => ({ ...prev, [id]: getProperType(id, value) }));
+		setTransactionData((prev) => ({ ...prev, [id]: value }));
 	}
-	function getProperType(key, value) {
-		switch (key) {
-			case "item_name":
-				return String(value);
-			case "amount":
-				return Number(value);
-			case "date":
-				return String(value);
-			case "merchant":
-				return String(value);
-			case "category":
-				return String(value);
-		}
-	}
+	// function getProperType(key, value) {
+	// 	switch (key) {
+	// 		case "item_name":
+	// 			return String(value);
+	// 		case "amount":
+	// 			return Number(value);
+	// 		case "date":
+	// 			return String(value);
+	// 		case "merchant":
+	// 			return String(value);
+	// 		case "category":
+	// 			return String(value);
+	// 	}
+	// }
 
 	async function handleFormSubmission(e) {
 		e.preventDefault();
+
+		if (!validate()) return;
+
 		if (id) {
 			try {
 				const updatedTransaction = await updateTransaction(transactionData);
@@ -133,6 +157,15 @@ export default function FormTransaction({
 					className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
 					required
 				/>
+
+				{validation.amount.isInValid && (
+					<small
+						key={validation.amount.isInValid}
+						className="text-red-500 absolute"
+					>
+						Enter a valid number
+					</small>
+				)}
 			</div>
 			<div className="mb-5">
 				<label
