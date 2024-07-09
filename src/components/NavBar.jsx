@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 function Navbar() {
 	function styleActive({ isActive }) {
 		return {
-			color: isActive ? "blue" : "",
+			color: isActive ? "#22c55e" : "",
 		};
 	}
 	return (

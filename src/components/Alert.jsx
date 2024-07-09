@@ -32,10 +32,10 @@ export default function Alert({
 							<span className="sr-only">Close modal</span>
 						</button>
 						<div className="p-4 md:p-5 text-center">
-							<span className="material-symbols-outlined text-7xl">
+							<span className="material-symbols-outlined text-7xl text-yellow-500">
 								warning
 							</span>
-							<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+							<h3 className="mb-5 text-lg font-normal text-white-500 dark:text-white">
 								Are you sure you want to delete this product?
 							</h3>
 							<button

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { formatCurrency } from "../utils/formatCurrency";
 
 export default function Transaction({ transaction, onConfirmBeforeDelete }) {
 	return (
@@ -11,7 +12,10 @@ export default function Transaction({ transaction, onConfirmBeforeDelete }) {
 				{transaction.item_name}
 			</th>
 			<td className="px-6 py-4">{transaction.date}</td>
-			<td className="px-6 py-4">${transaction.amount}</td>
+
+			<td className="px-6 py-4">
+				{formatCurrency(Number(transaction.amount))}
+			</td>
 			<td className="px-6 py-4 flex gap-1">
 				<Link to={`/transactions/${transaction.id}`}>
 					<span className="material-symbols-outlined text-green-500">

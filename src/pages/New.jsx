@@ -5,7 +5,6 @@ export default function New({
 	onSetCategories,
 	onSetTransactions,
 }) {
-	console.log(categories, "av ");
 	return (
 		<div>
 			<div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
