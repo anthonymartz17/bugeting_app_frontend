@@ -1,8 +1,62 @@
-# React + Vite
+# Budget App Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This is the frontend for a budget application built with React and Vite. The application allows users to manage their transactions and is styled using Tailwind CSS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Deployed website: https://budget-martz.netlify.app/
+## Technologies Used
+
+- React
+- Vite
+- Tailwind CSS
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- npm (Node Package Manager)
+
+### Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/yourusername/budget-app-frontend.git
+   cd budget-app-frontend
+   ```
+
+2. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory and add the following:
+
+   ```env
+   VITE_APP_BUDGET_API=http://localhost:3000
+   ```
+
+### Running the App
+
+Start the development server with:
+
+```sh
+npm run dev
+```
+
+The app will run on the port specified by Vite, typically `http://localhost:5173`.
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a new Pull Request.
+
+## License
+
+This project is public.
