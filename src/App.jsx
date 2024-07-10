@@ -18,6 +18,7 @@ function App() {
 	const [transactions, setTransactions] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [toDeleteId, setToDeleteId] = useState(null);
+	const [currentBalance, setCurrentBalance] = useState(0);
 
 	async function handleDeleteTransaction() {
 		try {
@@ -28,6 +29,17 @@ function App() {
 		} catch (error) {
 			console.log(error);
 		}
+	}
+	function updateBalance(transactions) {
+		setCurrentBalance(
+			transactions.reduce(
+				(acc, curr) =>
+					curr.isDeposit
+						? (acc += Number(curr.amount))
+						: (acc -= Number(curr.amount)),
+				0
+			)
+		);
 	}
 
 	function confirmBeforeDelete(id) {
@@ -54,16 +66,20 @@ function App() {
 			console.log(error);
 		}
 	}
+	useEffect(() => {
+		updateBalance(transactions);
+	}, [transactions]);
 
 	useEffect(() => {
 		getTransactions();
+		console.log(currentBalance);
 	}, []);
 
 	return (
 		<>
 			<Router>
 				<header>
-					<NavBar />
+					<NavBar currentBalance={currentBalance} />
 				</header>
 				<main>
 					<Routes>

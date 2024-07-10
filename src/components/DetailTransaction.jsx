@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchTransactionById } from "../services/transactions.service";
+import { formatCurrency } from "../utils/formatCurrency";
 
 const API = import.meta.env.VITE_APP_BUDGET_API;
 
@@ -81,7 +82,7 @@ export default function DetailTransaction({ onConfirmBeforeDelete }) {
 							scope="row"
 							className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
 						>
-							{transaction.amount}
+							{formatCurrency(Number(transaction.amount))}
 						</th>
 					</tr>
 				</tbody>

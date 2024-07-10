@@ -14,6 +14,7 @@ export default function Transaction({ transaction, onConfirmBeforeDelete }) {
 			<td className="px-6 py-4">{transaction.date}</td>
 
 			<td className="px-6 py-4">
+				{!transaction.isDeposit ? "-" : null}
 				{formatCurrency(Number(transaction.amount))}
 			</td>
 			<td className="px-6 py-4 flex gap-1">

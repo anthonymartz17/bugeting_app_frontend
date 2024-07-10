@@ -24,7 +24,8 @@ export default function FormTransaction({
 		merchant: "",
 		category: "",
 	});
-	// const [submitted, setSubmitted] = useState(false);
+	const [isDeposit, setIsDeposit] = useState(true);
+
 	const [validation, setValidation] = useState({
 		error: false,
 		amount: { isInValid: false },
@@ -47,24 +48,16 @@ export default function FormTransaction({
 	}
 	function handleFormData(e) {
 		e.preventDefault();
-
+		console.log(e.target.checked);
 		const { id, value } = e.target;
-		setTransactionData((prev) => ({ ...prev, [id]: value }));
+		setTransactionData((prev) => ({
+			...prev,
+			[id]: value,
+		}));
 	}
-	// function getProperType(key, value) {
-	// 	switch (key) {
-	// 		case "item_name":
-	// 			return String(value);
-	// 		case "amount":
-	// 			return Number(value);
-	// 		case "date":
-	// 			return String(value);
-	// 		case "merchant":
-	// 			return String(value);
-	// 		case "category":
-	// 			return String(value);
-	// 	}
-	// }
+	function handleIsDeposit() {
+		setIsDeposit((prev) => !prev);
+	}
 
 	async function handleFormSubmission(e) {
 		e.preventDefault();
@@ -73,7 +66,10 @@ export default function FormTransaction({
 
 		if (id) {
 			try {
-				const updatedTransaction = await updateTransaction(transactionData);
+				const updatedTransaction = await updateTransaction({
+					...transactionData,
+					isDeposit,
+				});
 				onUpdateTransaction(updatedTransaction);
 				navigate(`/transactions/${id}`);
 			} catch (error) {
@@ -81,7 +77,10 @@ export default function FormTransaction({
 			}
 		} else {
 			try {
-				const newTransaction = await createTransaction(transactionData);
+				const newTransaction = await createTransaction({
+					...transactionData,
+					isDeposit,
+				});
 				onSetTransactions((prev) => [...prev, newTransaction]);
 				navigate(`/transactions`);
 			} catch (error) {
@@ -202,7 +201,24 @@ export default function FormTransaction({
 					required
 				/>
 			</div>
-			<div className="flex gap-1">
+
+			<div className="flex items-center mb-4">
+				<input
+					onChange={handleIsDeposit}
+					id="isDeposit"
+					type="checkbox"
+					checked={isDeposit}
+					className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+				/>
+				<label
+					htmlFor="isDeposit"
+					className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+				>
+					Deposit
+				</label>
+			</div>
+
+			<div className="flex justify-end gap-1">
 				<button className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800">
 					{id ? "Update" : "Submit"}
 				</button>

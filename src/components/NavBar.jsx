@@ -1,7 +1,8 @@
 import React from "react";
 import logo from "../assets/budget_logo.png";
 import { NavLink } from "react-router-dom";
-function Navbar() {
+import { formatCurrency } from "../utils/formatCurrency";
+function Navbar({ currentBalance }) {
 	function styleActive({ isActive }) {
 		return {
 			color: isActive ? "#22c55e" : "",
@@ -71,6 +72,7 @@ function Navbar() {
 						</li>
 					</ul>
 				</div>
+				<p className="text-white">{formatCurrency(currentBalance)}</p>
 			</div>
 		</nav>
 	);
