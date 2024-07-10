@@ -8,7 +8,7 @@ export default function Edit({
 }) {
 	const { id } = useParams();
 	return (
-		<div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56 px-2">
+		<div className="mx-auto max-w-4xl py-32 sm:py-25 lg:py-35 px-2">
 			<FormTransaction
 				id={id}
 				categories={categories}
