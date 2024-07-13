@@ -7,7 +7,6 @@ import {
 	updateTransaction,
 	fetchTransactionById,
 } from "../services/transactions.service";
-const API = import.meta.env.VITE_APP_BUDGET_API;
 
 export default function FormTransaction({
 	id,
@@ -31,7 +30,8 @@ export default function FormTransaction({
 		amount: { isInValid: false },
 	});
 	function validate() {
-		if (isNaN(transactionData.amount) || transactionData.amount.trim() === "") {
+		console.log(transactionData,'transactionData.amount')
+		if (isNaN(transactionData.amount) || String(transactionData.amount).trim() === "") {
 			setValidation((prev) => ({
 				...prev,
 				error: true,
